@@ -9,8 +9,6 @@ class TreatiseViewSet(viewsets.ModelViewSet):
     serializer_class = TreatiseSerializer
     queryset = Treatise.objects.all()
 
-
-
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
 
