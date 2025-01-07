@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from materials.models import Treatise, Lesson
 
 
 class User(AbstractUser):
@@ -15,4 +16,18 @@ class User(AbstractUser):
 
     def __str__(self):
          return self.email
+
+class Payments(models.Model):
+    STATUS_CHOICES = [
+        ('наличные', 'Наличные'),
+        ('перевод на счет', 'Перевод на счет'),
+    ]
+
+
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    pay_date = models.DateField(blank=True, null=True, help_text='Введите дату в формате "гггг-мм-дд"')
+    paid_course = models.ForeignKey(Treatise,on_delete=models.CASCADE)
+    paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=20, choices=STATUS_CHOICES, default='перевод на счет')
+
 

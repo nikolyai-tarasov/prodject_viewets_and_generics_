@@ -1,3 +1,4 @@
+
 from rest_framework import viewsets, generics
 
 from materials.models import Treatise, Lesson
@@ -7,6 +8,7 @@ from materials.serializer import TreatiseSerializer, LessonSerializer
 class TreatiseViewSet(viewsets.ModelViewSet):
     serializer_class = TreatiseSerializer
     queryset = Treatise.objects.all()
+
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
