@@ -10,13 +10,13 @@ class LessonSerializer(serializers.ModelSerializer):
 
 class TreatiseSerializer(serializers.ModelSerializer):
     count_lesson = serializers.SerializerMethodField()
-    lessons = LessonSerializer('lessons', many=True)
+    lessons = LessonSerializer('lessons', many=True, read_only=True)
 
     class Meta:
         model = Treatise
         fields = '__all__'
 
     def get_count_lesson(self, obj):
-        return len(Lesson.objects.filter(treatise=obj.id))
+        return len(Lesson.objects.filter(treatise=obj.id),)
 
 

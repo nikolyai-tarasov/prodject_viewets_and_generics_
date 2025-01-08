@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",
-    "django-filters",
+    "django_filters",
 
     "users",
     "materials",
