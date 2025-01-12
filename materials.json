@@ -1,0 +1,22 @@
+[
+{
+    "model": "materials.treatise",
+    "pk": 1,
+    "fields": {
+        "name": "Basics Python",
+        "preview": "",
+        "description": "Курс направленн на основопологающие понимание языка програмирования"
+    }
+},
+{
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+        "name": "Введение в Python",
+        "preview": "",
+        "link_to_video": "basics/python.ru",
+        "treatise": 1,
+        "description": "Урок посвящен общей информации о Python"
+    }
+}
+]
