@@ -8,7 +8,7 @@ from materials.views import TreatiseViewSet, LessonCreateAPIView, LessonUpdateAP
 app_name = MaterialsConfig.name
 
 router = DefaultRouter()
-router.register(r'treatise', TreatiseViewSet, basename='treatise')
+router.register('treatise', TreatiseViewSet)
 urlpatterns = [
     path('lesson_create/', LessonCreateAPIView.as_view(), name='lesson_create'),
     path('', LessonListAPIView.as_view(), name='lesson_list'),
