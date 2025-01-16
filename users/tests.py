@@ -23,12 +23,17 @@ class SubsTestCase(APITestCase):
         """ Тестирование подписки на курс """
         data = {
             "user": self.user.pk,
-            "treatise": self.treatise.pk,
+            "treatise_id": self.treatise.pk,
         }
         url = reverse("users:subs", )
         response = self.client.post(url, data)
-        print(response,12)
+
         self.assertEqual(
             response.status_code,
             status.HTTP_200_OK
+        )
+
+        self.assertEqual(
+            response.json().get('message'),
+            'Подписка добавлена'
         )
