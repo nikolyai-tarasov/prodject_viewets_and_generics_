@@ -10,12 +10,25 @@ from users.models import Payments, User, Subs
 from rest_framework.filters import OrderingFilter
 from users.permissions import IsUserOwner
 from users.serializer import PaymentsSerializer, UserSerializer, SubsSerializer
-
+from users.services import create_stripe_product, create_stripe_price, create_stripe_session
 
 
 class PaymentsCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentsSerializer
     permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        payment = serializer.save()
+        payment.user = self.request.user
+        stripe_product_id = create_stripe_product(payment)
+        payment.amount = payment.amount
+        price = create_stripe_price(
+            stripe_product_id=stripe_product_id, amount=payment.amount
+        )
+        session_id, payment_link = create_stripe_session(price=price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()
 
 class PaymentsListAPIView(generics.ListAPIView):
     serializer_class = PaymentsSerializer
