@@ -16,6 +16,7 @@ sqlparse = "^0.5.3"
 ipython = "^8.30.0"
 django-filter = "^24.3"
 djangorestframework-simplejwt = "^5.4.0"
+coverage = "^7.6.10"
 
 
 [build-system]

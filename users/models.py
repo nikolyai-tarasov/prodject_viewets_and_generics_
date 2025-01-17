@@ -13,7 +13,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username', ]
 
     def __str__(self):
-        return self.email
+        return f'{self.email}'
 
 
 class Payments(models.Model):
@@ -30,8 +30,20 @@ class Payments(models.Model):
 
     class Meta:
         verbose_name = 'Платеж'
-        verbose_name_plural = 'Платеж'
+        verbose_name_plural = 'Платежи'
         ordering = ['user', 'pay_date', 'payment_method',]
 
     def __str__(self):
         return f'{self.user} - {self.payment_method}'
+
+
+class Subs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank= True, null=True)
+    treatise = models.ForeignKey(Treatise, on_delete=models.CASCADE, blank= True, null=True)
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        ordering = ['user', 'treatise',]
+
+    def __str__(self):
+        return f'{self.user} подписан на  курс {self.treatise}'

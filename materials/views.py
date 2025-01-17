@@ -1,7 +1,6 @@
 from rest_framework import viewsets, generics
-from rest_framework.decorators import permission_classes
-
 from materials.models import Treatise, Lesson
+from materials.paginators import MaterialsPaginator
 from materials.permissions import IsManager, IsOwner
 from materials.serializer import TreatiseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -10,9 +9,11 @@ from rest_framework.permissions import IsAuthenticated
 class TreatiseViewSet(viewsets.ModelViewSet):
     serializer_class = TreatiseSerializer
     queryset = Treatise.objects.all()
+    pagination_class = MaterialsPaginator
 
     def get_permissions(self):
 
+        global permission_classes
         if self.action == 'list':
             permission_classes = [IsAuthenticated]
 
@@ -24,8 +25,12 @@ class TreatiseViewSet(viewsets.ModelViewSet):
 
         elif self.action == 'destroy':
             permission_classes = [IsAuthenticated, IsOwner]
-            
+
         return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+
+        return super().get_queryset()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
@@ -42,12 +47,13 @@ class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated]
+    pagination_class = MaterialsPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsManager | IsOwner]
+    permission_classes = [IsAuthenticated, IsManager|IsOwner]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):

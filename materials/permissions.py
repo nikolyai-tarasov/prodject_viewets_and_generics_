@@ -8,7 +8,7 @@ class IsManager(BasePermission):
         return False
 
 class IsOwner(BasePermission):
-    def has_permission(self, request, view):
-        if request.user == view.get_object().owner:
+    def has_object_permission(self, request, view, object):
+        if object.owner == request.user:
             return True
         return False
