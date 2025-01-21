@@ -27,6 +27,9 @@ class Payments(models.Model):
     paid_course = models.ForeignKey(Treatise, on_delete=models.CASCADE)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=20, choices=STATUS_CHOICES, default='перевод на счет')
+    amount = models.PositiveIntegerField(verbose_name="Сумма оплаты курса или урока", default=0)
+    session_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='Id сессии')
+    link = models.URLField(max_length=400,blank=True,null=True,verbose_name='Ссылка на оплату')
 
     class Meta:
         verbose_name = 'Платеж'
@@ -34,7 +37,7 @@ class Payments(models.Model):
         ordering = ['user', 'pay_date', 'payment_method',]
 
     def __str__(self):
-        return f'{self.user} - {self.payment_method}'
+        return f'{self.user} - {self.payment_method}: {self.amount}'
 
 
 class Subs(models.Model):
