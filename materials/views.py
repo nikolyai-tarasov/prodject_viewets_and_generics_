@@ -4,6 +4,7 @@ from materials.paginators import MaterialsPaginator
 from materials.permissions import IsManager, IsOwner
 from materials.serializer import TreatiseSerializer, LessonSerializer
 from rest_framework.permissions import IsAuthenticated
+from materials.tasks import mail_update_treatise_info
 
 
 class TreatiseViewSet(viewsets.ModelViewSet):
@@ -29,8 +30,12 @@ class TreatiseViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-
         return super().get_queryset()
+
+    def perform_update(self, serializer):
+        updated_treatise = serializer.save()
+        mail_update_treatise_info.delay(updated_treatise)
+        updated_treatise.save()
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
